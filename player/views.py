@@ -1,13 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
-from .forms import NameForm
+from .forms import NameForm, LinkForm
+from .models import Song
 
 
 # Create your views here.
 
+currentSongPk = 1
 
 def playerpage(request):
+
+    if request.method == "POST":
+        link = request.POST['link']
+        song = Song()
+        song.dj = request.user
+        song.link = link
+        song.save()
+        return redirect('/player/playerpage')
     usernames = [i.username for i in User.objects.all()]
     print(usernames)
     print(request.user.username)
@@ -15,8 +25,12 @@ def playerpage(request):
         print(request.user.username)
         print("nie ma usera")
         return redirect('/player/login')
+    form = LinkForm()        
+    playlist = [i for i in Song.objects.all()]
     context = {
         'src': '7WLIN_x67qQ',
+        'form': form,
+        'playlist': playlist
     }
     return render(request, './player/playerpage.html', context)
 
