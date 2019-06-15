@@ -2,13 +2,13 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,logout,login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import NameForm
-from .models import Dj
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 
 def playerpage(request):
-    usernames = [i.username for i in Dj.objects.all()]
+    usernames = [i.username for i in User.objects.all()]
     print(usernames)
     print(request.user.username)
     if request.user.username not in usernames:
@@ -24,15 +24,13 @@ def playerpage(request):
 def loginpage(request):
     logout(request)
     if request.method == "POST":
-        username=request.POST['username']
-        form = NameForm(request.POST)
-        request.user.username = username
+        username = request.POST['username']
         try:
-            checkuser = Dj.objects.get(username=username)
-        except:
-            user = Dj.create(username)
-            user.save()
-        print("lecimy tu " + username)
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            user = User.objects.create_user(username=username)
+        authenticate(user)
+        login(request, user)
         return redirect('/player/playerpage')
     else:
         form = NameForm()
