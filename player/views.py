@@ -1,8 +1,8 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,logout,login
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import NameForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
+from .forms import NameForm
+
 
 # Create your views here.
 
@@ -34,5 +34,5 @@ def loginpage(request):
         return redirect('/player/playerpage')
     else:
         form = NameForm()
-        print("no post")
+        # print("no post")
     return render(request, './player/login.html', {'form': form})
