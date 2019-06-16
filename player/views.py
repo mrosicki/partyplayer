@@ -3,14 +3,43 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from .forms import NameForm, LinkForm
 from .models import Song
+from urllib.parse import urlparse, parse_qs
 
 
 # Create your views here.
 
-currentSongPk = 1
+def video_id(value):
+    """
+    Examples:
+    - http://youtu.be/SA2iWivDJiE
+    - http://www.youtube.com/watch?v=_oPAwA_Udwc&feature=feedu
+    - http://www.youtube.com/embed/SA2iWivDJiE
+    - http://www.youtube.com/v/SA2iWivDJiE?version=3&amp;hl=en_US
+    """
+    query = urlparse(value)
+    if query.hostname == 'youtu.be':
+        return query.path[1:]
+    if query.hostname in ('www.youtube.com', 'youtube.com'):
+        if query.path == '/watch':
+            p = parse_qs(query.query)
+            return p['v'][0]
+        if query.path[:7] == '/embed/':
+            return query.path.split('/')[2]
+        if query.path[:3] == '/v/':
+            return query.path.split('/')[2]
+    # fail?
+    return None
+
+
+def get_next():
+    try:
+        return Song.objects.filter(wasPlayed=False).order_by('pk')[:1][0]
+    except IndexError:
+        return None
 
 def playerpage(request):
 
+    #dodawanie piosenki do playlisty
     if request.method == "POST":
         link = request.POST['link']
         song = Song()
@@ -18,6 +47,8 @@ def playerpage(request):
         song.link = link
         song.save()
         return redirect('/player/playerpage')
+
+    #sprawdzenie czy uzytkownik ustawil sobie nick
     usernames = [i.username for i in User.objects.all()]
     print(usernames)
     print(request.user.username)
@@ -25,10 +56,20 @@ def playerpage(request):
         print(request.user.username)
         print("nie ma usera")
         return redirect('/player/login')
-    form = LinkForm()        
+    form = LinkForm()
+    songToPlay = get_next()
+    print(get_next())
+    if songToPlay:
+        src = video_id(songToPlay.link)
+        songToPlay.wasPlayed = True
+        songToPlay.save()
+    else:
+        src = ''
+    
+    print(src)
     playlist = [i for i in Song.objects.all()]
     context = {
-        'src': '7WLIN_x67qQ',
+        'src': src,
         'form': form,
         'playlist': playlist
     }

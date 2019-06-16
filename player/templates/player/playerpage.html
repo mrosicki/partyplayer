@@ -4,6 +4,7 @@
 <body>
   <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
   <div id="player"></div>
+  </br>
   <form method="POST">
     {% csrf_token %}
     {{ form }}
@@ -46,10 +47,10 @@
     //    the player should play for six seconds and then stop.
     var done = false;
     function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
-        done = true;
-      }
+      // if (event.data == YT.PlayerState.PLAYING && !done) {
+      //   setTimeout(stopVideo(), 6000);
+      //   done = true;
+      // }
     }
     function stopVideo() {
       player.stopVideo();
