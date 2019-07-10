@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from .forms import NameForm, LinkForm
 from .models import Song
+import json
 from urllib.parse import urlparse, parse_qs
 
 
@@ -36,6 +38,14 @@ def get_next():
         return Song.objects.filter(wasPlayed=False).order_by('pk')[:1][0]
     except IndexError:
         return None
+
+def add_song(request):
+    link = request.POST.get('link')
+    if link:
+        song = Song(dj=request.user, link=link)
+        song.save()
+        return HttpResponse(status=200)
+    return HttpResponse(status=500)
 
 def playerpage(request):
 

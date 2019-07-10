@@ -1,15 +1,41 @@
 <!DOCTYPE html>
-<html>
 
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                const Url = "http://127.0.0.1:8000/player/add_song";
+                $('.send').click(function(){
+                    $.ajax({
+                        url: Url,
+                        type:"POST",
+                        data: {
+                            link :document.getElementsByClassName('link')[0].value,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                            },
+                            success: function(result){
+                            console.log(result);
+                        },
+                        error:function(error){
+                            console.log(error)
+                        }
+                    })
+                    if('{{ src }}'  == ''){
+                      location.reload();
+                    }
+                })
+            })
+        </script>
+</head>
 <body>
   <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
   <div id="player"></div>
   </br>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="OK">
-  </form>
+  {% csrf_token %}
+<input class="link" type="text">
+  <button class="send" >ok</button>
+
   {% for i in playlist %}
   {{i.pk}} {{ i.dj }} {{ i.link }}
   </br>
@@ -47,10 +73,9 @@
     //    the player should play for six seconds and then stop.
     var done = false;
     function onPlayerStateChange(event) {
-      // if (event.data == YT.PlayerState.PLAYING && !done) {
-      //   setTimeout(stopVideo(), 6000);
-      //   done = true;
-      // }
+      if (event.data === 0) {
+         location.reload();
+       }
     }
     function stopVideo() {
       player.stopVideo();
