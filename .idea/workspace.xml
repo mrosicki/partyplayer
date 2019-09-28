@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e4ff04a5-f836-4d2b-abfc-57a91a0c716f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/templates/player/playerpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/player/templates/player/playerpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/player/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/player/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="e4ff04a5-f836-4d2b-abfc-57a91a0c716f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +37,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player/templates/player/playerpage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="345">
               <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
             </state>
           </provider>
@@ -179,12 +173,18 @@
       <option name="project" value="LOCAL" />
       <updated>1559258887963</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="dodane przeladowywanie strony po skonczonym filmiku">
+      <created>1562793126284</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1562793126285</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17868339" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -228,7 +228,8 @@
     <MESSAGE value="start boi" />
     <MESSAGE value="skrypt do zatrzymwania filmiku" />
     <MESSAGE value="trzeba dodac wlasny backend do autoryzacji bez hasla" />
-    <option name="LAST_COMMIT_MESSAGE" value="trzeba dodac wlasny backend do autoryzacji bez hasla" />
+    <MESSAGE value="dodane przeladowywanie strony po skonczonym filmiku" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodane przeladowywanie strony po skonczonym filmiku" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/player/apps.py">
@@ -298,7 +299,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/player/templates/player/playerpage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="345">
           <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
         </state>
       </provider>

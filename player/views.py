@@ -86,6 +86,10 @@ def playerpage(request):
     return render(request, './player/playerpage.html', context)
 
 
+def test_soundcloud(request):
+    return render(request, './player/test_soundcloud.html')
+
+
 def loginpage(request):
     logout(request)
     if request.method == "POST":

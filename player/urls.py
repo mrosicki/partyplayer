@@ -6,5 +6,6 @@ urlpatterns = [
     path('playerpage', views.playerpage, name='playerpage'),
     path('login', views.loginpage, name='playerpage'),
     path('add_song', views.add_song, name='add_song'),
+    path('test_soundcloud', views.test_soundcloud, name='test_soundcloud'),
 
 ]
