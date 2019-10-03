@@ -7,4 +7,5 @@ class Song(models.Model):
     dj = models.ForeignKey(User, on_delete=models.CASCADE)
     link = models.CharField(max_length=1000)
     wasPlayed = models.BooleanField(default=False)
+    website = models.CharField(max_length=30, default='unknown')
         

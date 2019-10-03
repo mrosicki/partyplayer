@@ -42,46 +42,45 @@ def get_next():
 def add_song(request):
     link = request.POST.get('link')
     if link:
-        song = Song(dj=request.user, link=link)
+        if 'youtube' in link or 'youtu.be' in link:
+            website = 'youtube'
+        else:
+            website = 'soundcloud'    
+        song = Song(dj=request.user, link=link, website=website)
         song.save()
         return HttpResponse(status=200)
     return HttpResponse(status=500)
 
 def playerpage(request):
 
-    #dodawanie piosenki do playlisty
-    if request.method == "POST":
-        link = request.POST['link']
-        song = Song()
-        song.dj = request.user
-        song.link = link
-        song.save()
-        return redirect('/player/playerpage')
-
     #sprawdzenie czy uzytkownik ustawil sobie nick
     usernames = [i.username for i in User.objects.all()]
-    print(usernames)
-    print(request.user.username)
     if request.user.username not in usernames:
         print(request.user.username)
         print("nie ma usera")
         return redirect('/player/login')
     form = LinkForm()
     songToPlay = get_next()
-    print(get_next())
     if songToPlay:
-        src = video_id(songToPlay.link)
+        if songToPlay.website == 'youtube':
+            src = video_id(songToPlay.link)
+        else:
+            src = songToPlay.link
         songToPlay.wasPlayed = True
+        website = songToPlay.website
         songToPlay.save()
     else:
         src = ''
+        website = ''
     
-    print(src)
+    # print(src)
     playlist = [i for i in Song.objects.all()]
+    
     context = {
         'src': src,
         'form': form,
-        'playlist': playlist
+        'playlist': playlist,
+        'website': website
     }
     return render(request, './player/playerpage.html', context)
 

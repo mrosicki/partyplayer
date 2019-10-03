@@ -4,4 +4,4 @@ player/__pycache__/models.cpython-37.pyc
 player/__pycache__/views.cpython-37.pyc
 *.pyc
 notepad
-.idea
+.idea*
