@@ -55,8 +55,9 @@ def playerpage(request):
 
     #sprawdzenie czy uzytkownik ustawil sobie nick
     usernames = [i.username for i in User.objects.all()]
+    print(request.user.username)
     if request.user.username not in usernames:
-        print(request.user.username)
+        print(request.user)
         print("nie ma usera")
         return redirect('/player/login')
     form = LinkForm()
