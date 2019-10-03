@@ -1,2 +1,1 @@
-#todo
-soundcloud links in django templates
+Shared player for soundcloud and youtube

@@ -53,12 +53,9 @@ def add_song(request):
 
 def playerpage(request):
 
-    #sprawdzenie czy uzytkownik ustawil sobie nick
+    #check whether user has set an username
     usernames = [i.username for i in User.objects.all()]
-    print(request.user.username)
     if request.user.username not in usernames:
-        print(request.user)
-        print("nie ma usera")
         return redirect('/player/login')
     form = LinkForm()
     songToPlay = get_next()
@@ -74,7 +71,6 @@ def playerpage(request):
         src = ''
         website = ''
     
-    # print(src)
     playlist = [i for i in Song.objects.all()]
     
     context = {
@@ -103,5 +99,4 @@ def loginpage(request):
         return redirect('/player/playerpage')
     else:
         form = NameForm()
-        # print("no post")
     return render(request, './player/login.html', {'form': form})
