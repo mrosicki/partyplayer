@@ -1,111 +1,112 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                const Url = "http://127.0.0.1:8000/player/add_song";
-                $('.send').click(function(){
-                    $.ajax({
-                        url: Url,
-                        type:"POST",
-                        data: {
-                            link: document.getElementsByClassName('link')[0].value,
-                            csrfmiddlewaretoken: '{{ csrf_token }}',
-                            },
-                            success: function(result){
-                            console.log(result);
-                            if('{{ src }}'  == ''){
-                              location.reload();
-                            }
-                        },
-                        error: function(error){
-                            console.log(error);
-                        }
-                    })
-                })
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript"> 
+        $(document).ready(function(){
+          const Url = "http://127.0.0.1:8000/player/add_song";
+          $('.send').click(function(){
+            $.ajax({
+              url: Url,
+              type:"POST",
+              data: {
+                link: document.getElementsByClassName('link')[0].value,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+              },
+              success: function(result){
+                console.log(result);
+                if('{{ src }}'  == ''){
+                  location.reload();
+                }
+              },
+              error: function(error){
+                console.log(error);
+              }
             })
-        </script>
-</head>
-<body>
-  <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-  {% if website == 'youtube' %}
-    <div id="player"></div>
-  {% elif website == 'soundcloud' %}
-    <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ src }}" width="640" height="390" scrolling="no" frameborder="no"></iframe>
-  {% else %}
-    <H1>Link not available</H1>
-  {% endif %}
-  </br>
-  {% csrf_token %}
-<input class="link" type="text">
-  <button class="send" >ok</button>
+          })
+        })
+      </script>
+  </head>
+  <body>
+    {% if website == 'youtube' %}
+      <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+      <div id="player"></div>
+    {% elif website == 'soundcloud' %}
+      <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ src }}" width="640" height="390" scrolling="no" frameborder="no"></iframe>
+    {% else %}
+      <H1>Link not available</H1>
+    {% endif %}
+    </br>
 
-  {% for i in playlist %}
-  {{i.pk}} {{ i.dj }} {{ i.link }} {{ i.website }}
-  </br>
-  {% endfor %}
-  {% if website == 'youtube' %}
-  <script>
-    // 2. This code loads the IFrame Player API code asynchronously.
-    var tag = document.createElement('script');
+    {% csrf_token %}
+    <input class="link" type="text">
+    <button class="send" >ok</button>
 
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    {% for i in playlist %}
+      {{i.pk}} {{ i.dj }} {{ i.link }} {{ i.website }}
+      </br>
+    {% endfor %}
+    {% if website == 'youtube' %}
+      <script>
+        // 2. This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
 
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: '{{ src }}',
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-    function onPlayerStateChange(event) {
-      if (event.data === 0) {
-         location.reload();
-       }
-    }
-    function stopVideo() {
-      player.stopVideo();
-    }
-  </script>
-  {% elif website == 'soundcloud' %}
-  <script src="https://w.soundcloud.com/player/api.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    (function(){
-      var widgetIframe = document.getElementById('sc-widget'),
-          widget = SC.Widget(widgetIframe);
-  
-      widget.bind(SC.Widget.Events.READY, function() {
-          widget.bind(SC.Widget.Events.FINISH, function() {
-              location.reload()
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var player;
+        function onYouTubeIframeAPIReady() {
+          player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: '{{ src }}',
+            events: {
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
+            }
           });
-      });
-  
-    }());
-  </script>
-  {% else %}
-</br>
-  {% endif %}
-</body>
+        }
 
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+          event.target.playVideo();
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        var done = false;
+        function onPlayerStateChange(event) {
+          if (event.data === 0) {
+            location.reload();
+          }
+        }
+        function stopVideo() {
+          player.stopVideo();
+        }
+      </script>
+    {% elif website == 'soundcloud' %}
+      <script src="https://w.soundcloud.com/player/api.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        (function (){
+          var widgetIframe = document.getElementById('sc-widget'),
+          widget = SC.Widget(widgetIframe);
+      
+          widget.bind(SC.Widget.Events.READY, function() {
+            widget.bind(SC.Widget.Events.FINISH, function() {
+              location.reload()
+            });
+          });
+      
+        }());
+      </script>
+    {% else %}
+      <!-- place for other websites -->
+      </br>
+    {% endif %}
+  </body>
 </html>
